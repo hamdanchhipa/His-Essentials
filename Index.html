@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>His Essentials — Barber Shop | Kuwait City</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --forest:    #1E3028;
+  --forest-d:  #152219;
+  --forest-l:  #2A4238;
+  --forest-xl: #355142;
+  --sage:      #4A7C5E;
+  --sage-l:    #6A9E7E;
+  --mint:      #8FC4A0;
+  --cream:     #F4EFE6;
+  --cream-d:   #E8E0D0;
+  --warm-white:#FAF8F4;
+  --text-on-dark: #EDE8DF;
+  --text-muted-dark: #C2D4C8;
+  --text-on-light: #1E3028;
+  --text-muted-light: #4A7C5E;
+  --accent:    #8FC4A0;
+  --accent-d:  #6A9E7E;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--forest-d);
+  color:var(--text-on-dark);
+  overflow-x:hidden;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.7;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--forest-d)}
+::-webkit-scrollbar-thumb{background:var(--sage)}
+
+/* ─── CURSOR ─── */
+html{cursor:none}
+body *{cursor:none!important}
+#cur-dot{
+  width:7px;height:7px;
+  background:var(--accent);
+  border-radius:50%;
+  position:fixed;top:0;left:0;z-index:9999;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  transition:transform .08s;
+}
+#cur-ring{
+  width:32px;height:32px;
+  border:1px solid rgba(143,196,160,.4);
+  border-radius:50%;
+  position:fixed;top:0;left:0;z-index:9998;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  transition:width .3s,height .3s,border-color .3s,opacity .3s;
+}
+#cur-ring.expand{width:56px;height:56px;border-color:var(--accent);opacity:.8}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;
+  height:80px;
+  transition:all .5s ease;
+}
+nav.stuck{
+  background:rgba(21,34,25,.96);
+  backdrop-filter:blur(20px);
+  height:66px;
+  border-bottom:1px solid rgba(143,196,160,.12);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;
+}
+.nav-monogram{
+  width:42px;height:42px;
+  border:1.5px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel',serif;font-size:13px;font-weight:600;
+  color:var(--accent);letter-spacing:1px;
+  position:relative;
+  transition:all .35s;
+}
+.nav-monogram::after{
+  content:'';position:absolute;inset:5px;
+  border:1px solid rgba(143,196,160,.25);
+}
+.nav-logo:hover .nav-monogram{background:var(--accent);color:var(--forest-d)}
+.nav-brand{display:flex;flex-direction:column;line-height:1}
+.nav-name{
+  font-family:'Cinzel',serif;font-size:16px;font-weight:600;
+  color:var(--cream);letter-spacing:3px;
+}
+.nav-sub{
+  font-size:9px;font-weight:400;letter-spacing:4px;
+  color:var(--accent);text-transform:uppercase;margin-top:3px;
+}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{
+  text-decoration:none;
+  font-size:11px;font-weight:500;letter-spacing:2px;
+  text-transform:uppercase;
+  color:rgba(244,239,230,.65);
+  position:relative;transition:color .3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--accent);
+  transition:width .35s;
+}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{width:100%}
+.nav-book{
+  padding:11px 24px;
+  background:transparent;
+  border:1px solid var(--accent);
+  color:var(--accent)!important;
+  font-size:10px!important;
+  letter-spacing:2.5px!important;
+  transition:all .35s!important;
+}
+.nav-book::after{display:none!important}
+.nav-book:hover{background:var(--accent)!important;color:var(--forest-d)!important}
+
+/* mobile hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:1px;background:var(--cream);transition:all .3s}
+.mob-nav{
+  position:fixed;inset:0;z-index:490;
+  background:var(--forest-d);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;
+  transform:translateY(-100%);transition:transform .55s cubic-bezier(.22,1,.36,1);
+}
+.mob-nav.open{transform:translateY(0)}
+.mob-nav a{
+  font-family:'Cormorant',serif;font-size:42px;font-weight:400;
+  color:var(--cream);text-decoration:none;
+  transition:color .3s;letter-spacing:2px;
+}
+.mob-nav a:hover{color:var(--accent)}
+.mob-close{
+  position:absolute;top:28px;right:28px;
+  width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:none;
+}
+.mob-close::before,.mob-close::after{
+  content:'';position:absolute;
+  width:20px;height:1px;background:var(--cream);
+}
+.mob-close::before{transform:rotate(45deg)}
+.mob-close::after{transform:rotate(-45deg)}
+
+/* ─── FLOAT BOOK BTN ─── */
+.float-btn{
+  position:fixed;bottom:32px;right:32px;z-index:400;
+  display:flex;align-items:center;gap:10px;
+  padding:13px 24px;
+  background:var(--accent);
+  color:var(--forest-d);
+  font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+  text-decoration:none;
+  border:none;
+  box-shadow:0 12px 40px rgba(0,0,0,.4);
+  transform:translateY(100px);opacity:0;
+  transition:all .5s cubic-bezier(.22,1,.36,1);
+}
+.float-btn.show{transform:translateY(0);opacity:1}
+.float-btn:hover{background:var(--mint);transform:translateY(-2px) scale(1.02)}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:55% 45%;
+  position:relative;
+  overflow:hidden;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:140px 6% 100px 5%;
+  position:relative;z-index:2;
+  background:var(--forest-d);
+}
+.hero-right{
+  position:relative;overflow:hidden;
+  background:var(--forest);
+}
+.hero-right img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.75) saturate(.85);
+  transform:scale(1.08);
+  animation:slow-zoom 16s ease-in-out infinite alternate;
+}
+@keyframes slow-zoom{
+  from{transform:scale(1.08) translate(0,0)}
+  to{transform:scale(1.02) translate(-1%,1%)}
+}
+.hero-right-overlay{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to right, var(--forest-d) 0%, rgba(21,34,25,.2) 30%, transparent 60%),
+    linear-gradient(to top, rgba(21,34,25,.6) 0%, transparent 50%);
+}
+.hero-tag{
+  position:absolute;bottom:40px;right:32px;
+  background:rgba(21,34,25,.85);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(143,196,160,.2);
+  padding:12px 20px;
+  font-size:9px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
+  color:var(--accent);
+}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:14px;
+  margin-bottom:32px;
+  animation:rise .9s .1s both;
+}
+.eyebrow-line{width:36px;height:1px;background:var(--accent)}
+.hero-eyebrow span{
+  font-size:10px;font-weight:500;letter-spacing:5px;
+  text-transform:uppercase;color:var(--accent);
+}
+.hero-h1{
+  font-family:'Cormorant',serif;
+  font-size:clamp(56px,5.8vw,92px);
+  font-weight:300;
+  line-height:1.0;
+  color:var(--cream);
+  margin-bottom:28px;
+  animation:rise .9s .25s both;
+  letter-spacing:-1px;
+}
+.hero-h1 em{
+  font-style:italic;font-weight:400;
+  color:var(--accent);display:block;
+}
+.hero-body{
+  font-size:16px;font-weight:400;line-height:1.8;
+  color:#c8d8ce;
+  max-width:400px;
+  margin-bottom:48px;
+  animation:rise .9s .4s both;
+  letter-spacing:.1px;
+}
+.hero-actions{
+  display:flex;gap:14px;flex-wrap:wrap;
+  animation:rise .9s .55s both;
+}
+
+/* BUTTONS */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 36px;
+  background:var(--accent);
+  color:var(--forest-d);
+  font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  text-decoration:none;border:none;
+  position:relative;overflow:hidden;
+  transition:color .4s,transform .3s;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:var(--forest-d);
+  transform:translateX(-101%);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.btn-primary span{position:relative;z-index:1}
+.btn-primary:hover::before{transform:translateX(0)}
+.btn-primary:hover{color:var(--accent)}
+.btn-outline{
+  display:inline-flex;align-items:center;
+  padding:15px 36px;
+  background:transparent;
+  color:#c8d8ce;
+  font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
+  text-decoration:none;
+  border:1px solid rgba(244,239,230,.25);
+  transition:all .35s;
+}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+.hero-stats{
+  display:flex;gap:48px;
+  margin-top:64px;padding-top:36px;
+  border-top:1px solid rgba(143,196,160,.15);
+  animation:rise .9s .7s both;
+  flex-wrap:wrap;
+}
+.stat-num{
+  font-family:'Cormorant',serif;
+  font-size:46px;font-weight:400;
+  color:var(--cream);line-height:1;display:block;
+}
+.stat-lbl{
+  font-size:9px;font-weight:500;letter-spacing:3.5px;
+  text-transform:uppercase;color:#a0bcaa;
+  margin-top:6px;display:block;
+}
+
+/* vertical scroll hint */
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  animation:rise .9s .9s both;
+}
+.scroll-word{font-size:8px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--text-muted-dark)}
+.scroll-line{width:1px;height:48px;background:rgba(143,196,160,.2);position:relative;overflow:hidden}
+.scroll-line::after{
+  content:'';position:absolute;top:-48px;left:0;
+  width:1px;height:48px;background:var(--accent);
+  animation:drip 2.4s ease-in-out infinite;
+}
+@keyframes drip{from{transform:translateY(0)}to{transform:translateY(96px)}}
+
+/* keyframes */
+@keyframes rise{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ─── MARQUEE ─── */
+.marquee{
+  background:var(--forest-l);
+  padding:14px 0;overflow:hidden;
+  border-top:1px solid rgba(143,196,160,.1);
+  border-bottom:1px solid rgba(143,196,160,.08);
+}
+.marquee-inner{display:flex;animation:ticker 28s linear infinite;white-space:nowrap}
+.marquee-item{
+  flex-shrink:0;padding:0 28px;
+  display:flex;align-items:center;gap:28px;
+  font-size:9px;font-weight:500;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(244,239,230,.55);
+}
+.marquee-dot{width:3px;height:3px;border-radius:50%;background:var(--sage)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── SECTION LABELS ─── */
+.section-label{
+  display:inline-flex;align-items:center;gap:14px;
+  margin-bottom:18px;
+}
+.label-line{width:32px;height:1px;background:var(--accent)}
+.label-text{
+  font-size:9px;font-weight:500;letter-spacing:5px;text-transform:uppercase;
+  color:var(--accent);
+}
+.section-title{
+  font-family:'Cormorant',serif;
+  font-size:clamp(38px,4.5vw,66px);
+  font-weight:400;line-height:1.05;
+  color:var(--cream);
+  letter-spacing:-0.5px;
+}
+.section-title em{font-style:italic;color:var(--accent);font-weight:300}
+.section-title.dark{color:var(--forest-d)}
+.section-title.dark em{color:var(--sage)}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-36px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.rv-l.on{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(36px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.rv-r.on{opacity:1;transform:translateX(0)}
+
+/* ─── ABOUT ─── */
+#about{
+  background:var(--cream);
+  padding:120px 5%;
+}
+.about-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:100px;align-items:center;
+}
+.about-text-side{}
+.about-body{
+  font-size:16px;font-weight:400;line-height:1.8;
+  color:#2e4d3c;
+  margin:24px 0 36px;
+  letter-spacing:.1px;
+}
+.about-feats{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:14px;margin-bottom:44px;
+}
+.feat-card{
+  padding:22px 20px;
+  border:1px solid rgba(30,48,40,.1);
+  background:rgba(30,48,40,.03);
+  transition:all .35s;
+}
+.feat-card:hover{border-color:var(--sage);background:rgba(30,48,40,.06)}
+.feat-icon{font-size:18px;margin-bottom:10px}
+.feat-title{
+  font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--forest);
+  margin-bottom:7px;
+}
+.feat-desc{
+  font-size:14px;font-weight:400;line-height:1.7;
+  color:#4a6e5a;
+}
+
+/* about image side */
+.about-img-side{position:relative;height:620px}
+.aimg-main{
+  position:absolute;top:0;right:0;
+  width:82%;height:78%;overflow:hidden;
+}
+.aimg-main img{width:100%;height:100%;object-fit:cover;filter:brightness(.9) saturate(.85);transition:transform .7s ease}
+.aimg-main:hover img{transform:scale(1.04)}
+.aimg-accent{
+  position:absolute;bottom:0;left:0;
+  width:48%;height:44%;overflow:hidden;
+  border:5px solid var(--cream);
+}
+.aimg-accent img{width:100%;height:100%;object-fit:cover;filter:brightness(.88) saturate(.82);transition:transform .7s ease}
+.aimg-accent:hover img{transform:scale(1.05)}
+.about-badge{
+  position:absolute;top:46%;left:55%;
+  width:90px;height:90px;
+  background:var(--forest);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 16px 48px rgba(30,48,40,.5);
+  z-index:2;
+}
+.badge-num{
+  font-family:'Cormorant',serif;font-size:28px;font-weight:500;
+  color:var(--cream);line-height:1;
+}
+.badge-sub{
+  font-size:7px;font-weight:500;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);
+}
+
+/* ─── SERVICES ─── */
+#services{
+  background:var(--forest-d);
+  padding:120px 5%;
+  position:relative;overflow:hidden;
+}
+#services::before{
+  content:'';position:absolute;
+  top:-300px;right:-300px;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(74,124,94,.07) 0%,transparent 70%);
+}
+.svc-header{
+  max-width:1280px;margin:0 auto 72px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:28px;
+}
+.svc-intro{
+  font-size:16px;font-weight:400;line-height:1.8;
+  color:#b8c9bf;max-width:380px;
+  margin-top:18px;letter-spacing:.15px;
+}
+.svc-grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(143,196,160,.08);
+}
+.svc-card{
+  background:var(--forest-d);
+  padding:52px 38px;
+  position:relative;overflow:hidden;
+  transition:background .45s;
+}
+.svc-card::after{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+.svc-card:hover{background:var(--forest-l)}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-num{
+  font-family:'Cormorant',serif;
+  font-size:72px;font-weight:300;
+  color:rgba(143,196,160,.07);
+  position:absolute;top:10px;right:20px;
+  line-height:1;transition:color .45s;
+}
+.svc-card:hover .svc-num{color:rgba(143,196,160,.15)}
+.svc-icon{
+  width:48px;height:48px;
+  border:1px solid rgba(143,196,160,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:28px;
+  transition:all .4s;
+}
+.svc-card:hover .svc-icon{background:var(--accent);border-color:var(--accent)}
+.svc-bar{width:24px;height:1px;background:var(--accent);margin-bottom:18px;transition:width .45s}
+.svc-card:hover .svc-bar{width:48px}
+.svc-name{
+  font-family:'Cormorant',serif;
+  font-size:26px;font-weight:500;
+  color:var(--cream);margin-bottom:14px;line-height:1.2;
+}
+.svc-desc{
+  font-size:15px;font-weight:400;line-height:1.78;
+  color:#c8d8ce;margin-bottom:26px;
+  letter-spacing:.1px;
+}
+.svc-price{
+  font-size:10px;font-weight:500;letter-spacing:3px;
+  text-transform:uppercase;color:var(--accent);
+}
+.svc-duration{
+  font-size:10px;font-weight:400;letter-spacing:1.5px;
+  color:#a0bcaa;margin-top:5px;
+}
+
+/* ─── EXPERIENCE SPLIT ─── */
+#experience{
+  display:grid;grid-template-columns:1fr 1fr;
+}
+.exp-img{
+  position:relative;overflow:hidden;min-height:640px;
+}
+.exp-img img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.7) saturate(.8);
+  transform:scale(1.06);transition:transform 7s ease;
+}
+.exp-img:hover img{transform:scale(1.0)}
+.exp-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,transparent 50%,var(--forest) 100%),
+             linear-gradient(to top,rgba(21,34,25,.6) 0%,transparent 60%);
+}
+.exp-quote{
+  position:absolute;bottom:52px;left:44px;right:44px;
+}
+.exp-qmark{
+  font-family:'Cormorant',serif;font-size:80px;
+  line-height:.6;color:var(--accent);opacity:.45;
+  display:block;margin-bottom:12px;
+}
+.exp-qtext{
+  font-family:'Cormorant',serif;font-size:20px;
+  font-style:italic;font-weight:400;
+  color:var(--cream);line-height:1.55;
+}
+.exp-qauthor{
+  font-size:9px;font-weight:500;letter-spacing:3px;
+  text-transform:uppercase;color:var(--accent);
+  margin-top:14px;display:block;
+}
+
+.exp-right{
+  background:var(--forest);
+  padding:92px 7%;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.exp-body{
+  font-size:16px;font-weight:400;line-height:1.8;
+  color:#c8d8ce;
+  margin:24px 0 48px;letter-spacing:.1px;
+}
+.exp-stats{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid rgba(143,196,160,.15);
+  margin-top:8px;
+}
+.exp-stat{
+  padding:30px 24px 30px 0;
+  border-right:1px solid rgba(143,196,160,.12);
+  margin-right:24px;
+}
+.exp-stat:nth-child(even){border-right:none;padding-right:0;margin-right:0}
+.exp-stat-n{
+  font-family:'Cormorant',serif;font-size:48px;font-weight:400;
+  color:var(--mint);line-height:1;
+}
+.exp-stat-l{
+  font-size:9px;font-weight:500;letter-spacing:3px;
+  text-transform:uppercase;color:#a0bcaa;margin-top:8px;
+}
+
+/* ─── GALLERY ─── */
+#gallery{
+  background:var(--forest-d);padding:120px 5%;
+}
+.gal-header{
+  max-width:1280px;margin:0 auto 56px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:20px;
+}
+.gal-grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr;
+  grid-template-rows:300px 300px;
+  gap:6px;
+}
+.gal-item{overflow:hidden;position:relative}
+.gal-item:first-child{grid-row:1/3}
+.gal-item img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.8) saturate(.75);
+  transform:scale(1.05);
+  transition:transform .7s ease,filter .7s ease;
+}
+.gal-item:hover img{transform:scale(1.0);filter:brightness(.7) saturate(.85)}
+.gal-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(21,34,25,.65) 0%,transparent 50%);
+  opacity:0;transition:opacity .45s;
+}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-label{
+  position:absolute;bottom:18px;left:20px;
+  font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(244,239,230,.8);
+  opacity:0;transform:translateY(6px);
+  transition:all .4s;
+}
+.gal-item:hover .gal-label{opacity:1;transform:translateY(0)}
+
+/* ─── REVIEWS ─── */
+#reviews{
+  background:var(--cream);
+  padding:120px 5%;
+}
+.rev-inner{max-width:1280px;margin:0 auto}
+.rev-header{text-align:center;margin-bottom:64px}
+.rev-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+.rev-card{
+  padding:44px 34px;
+  border:1px solid rgba(30,48,40,.1);
+  background:var(--warm-white);
+  position:relative;overflow:hidden;
+  transition:all .45s;
+}
+.rev-card::before{
+  content:'';position:absolute;
+  left:0;top:0;bottom:0;width:2px;
+  background:var(--sage);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+.rev-card:hover{border-color:rgba(74,124,94,.25);transform:translateY(-3px);box-shadow:0 20px 60px rgba(30,48,40,.1)}
+.rev-card:hover::before{transform:scaleY(1)}
+.rev-stars{color:var(--sage);font-size:14px;letter-spacing:2px;margin-bottom:16px}
+.rev-qmark{
+  font-family:'Cormorant',serif;font-size:64px;
+  line-height:.65;color:rgba(30,48,40,.1);
+  display:block;margin-bottom:14px;
+}
+.rev-text{
+  font-size:16px;font-weight:400;line-height:1.8;
+  color:#2e4d3c;margin-bottom:28px;
+  font-style:italic;letter-spacing:.1px;
+}
+.rev-author{display:flex;align-items:center;gap:14px}
+.rev-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--forest),var(--sage));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant',serif;font-size:20px;color:var(--cream);
+  flex-shrink:0;
+}
+.rev-name{
+  font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--forest);
+}
+.rev-detail{font-size:12px;font-weight:400;color:#4a6e5a;margin-top:3px}
+
+/* ─── BOOKING ─── */
+#booking{
+  background:var(--forest-l);
+  padding:120px 5%;
+}
+.bk-inner{max-width:900px;margin:0 auto}
+.bk-label-wrap{display:flex;justify-content:center;margin-bottom:20px}
+.bk-title{
+  font-family:'Cormorant',serif;
+  font-size:clamp(40px,5vw,70px);font-weight:300;
+  color:var(--cream);line-height:1.06;
+  text-align:center;margin-bottom:16px;
+  letter-spacing:-0.5px;
+}
+.bk-title em{font-style:italic;color:var(--accent);font-weight:400}
+.bk-sub{
+  font-size:16px;font-weight:400;line-height:1.8;
+  color:var(--text-muted-dark);
+  text-align:center;max-width:520px;margin:0 auto 52px;
+  letter-spacing:.15px;
+}
+.bk-form{
+  background:rgba(21,34,25,.6);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(143,196,160,.15);
+  padding:52px;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:9px}
+.form-group.full{grid-column:1/-1}
+.form-label{
+  font-size:9px;font-weight:500;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--text-muted-dark);
+}
+.form-input,.form-select{
+  padding:14px 16px;
+  border:1px solid rgba(143,196,160,.2);
+  background:rgba(21,34,25,.5);
+  color:var(--cream);
+  font-family:'Outfit',sans-serif;font-size:15px;font-weight:400;
+  outline:none;
+  transition:border-color .3s,box-shadow .3s;
+  -webkit-appearance:none;
+}
+.form-input:focus,.form-select:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(143,196,160,.12);
+}
+.form-input::placeholder{color:var(--text-muted-dark)}
+.form-select option{background:var(--forest-d);color:var(--cream)}
+.form-submit{
+  margin-top:28px;width:100%;
+  padding:18px;
+  background:var(--accent);
+  color:var(--forest-d);
+  font-family:'Outfit',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;
+  border:none;position:relative;overflow:hidden;
+  transition:color .4s;
+}
+.form-submit::before{
+  content:'';position:absolute;inset:0;
+  background:var(--forest-d);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.form-submit span{position:relative;z-index:1}
+.form-submit:hover::before{transform:scaleX(1)}
+.form-submit:hover{color:var(--accent)}
+
+/* ─── CONTACT ─── */
+#contact{
+  background:var(--forest-d);padding:120px 5%;
+}
+.ct-inner{max-width:1280px;margin:0 auto}
+.ct-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;margin-top:60px;
+}
+.ct-items{display:flex;flex-direction:column;gap:16px}
+.ct-item{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:24px 22px;
+  border:1px solid rgba(143,196,160,.1);
+  transition:border-color .35s,background .35s;
+}
+.ct-item:hover{border-color:rgba(143,196,160,.25);background:rgba(143,196,160,.04)}
+.ct-ico{font-size:18px;flex-shrink:0;margin-top:2px}
+.ct-lbl{
+  font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:7px;
+}
+.ct-val{font-size:15.5px;font-weight:400;color:var(--cream);line-height:1.45}
+.ct-sub{font-size:13px;font-weight:400;color:#a0bcaa;margin-top:4px}
+
+.ct-map{
+  border:1px solid rgba(143,196,160,.15);
+  padding:48px;
+  background:var(--forest-l);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  margin-bottom:18px;
+  min-height:220px;
+}
+.map-pin{font-size:44px;margin-bottom:16px}
+.map-title{
+  font-family:'Cormorant',serif;font-size:20px;font-weight:400;
+  color:var(--cream);margin-bottom:6px;
+}
+.map-sub{font-size:13px;font-weight:400;color:#a0bcaa;letter-spacing:.5px;margin-bottom:22px}
+.ct-wa{
+  padding:28px;
+  border:1px solid rgba(143,196,160,.15);
+  background:rgba(143,196,160,.04);
+}
+.ct-wa-title{
+  font-size:9px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px;
+}
+.ct-wa-body{
+  font-size:15px;font-weight:400;line-height:1.78;
+  color:var(--text-muted-dark);margin-bottom:18px;
+}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--forest-d);
+  border-top:1px solid rgba(143,196,160,.1);
+  padding:72px 5% 0;
+}
+.footer-grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:56px;
+  padding-bottom:56px;
+  border-bottom:1px solid rgba(143,196,160,.08);
+}
+.footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.footer-mark{
+  width:42px;height:42px;border:1px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--accent);
+}
+.footer-name{font-family:'Cinzel',serif;font-size:17px;font-weight:600;color:var(--cream);letter-spacing:3px}
+.footer-tagline{
+  font-size:14px;font-weight:400;line-height:1.8;
+  color:var(--text-muted-dark);margin-bottom:24px;letter-spacing:.1px;
+}
+.footer-social{display:flex;gap:8px}
+.social-btn{
+  width:38px;height:38px;
+  border:1px solid rgba(143,196,160,.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;text-decoration:none;
+  color:var(--text-muted-dark);
+  transition:all .35s;
+}
+.social-btn:hover{background:var(--accent);border-color:var(--accent);color:var(--forest-d)}
+.footer-col-title{
+  font-size:8.5px;font-weight:500;letter-spacing:4.5px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:22px;
+}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer-links a{
+  text-decoration:none;font-size:14px;font-weight:400;
+  color:var(--text-muted-dark);
+  transition:color .3s;letter-spacing:.1px;
+}
+.footer-links a:hover{color:var(--accent)}
+.footer-contact-item{
+  display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;
+}
+.footer-contact-item span:first-child{color:var(--accent);font-size:12px;margin-top:2px}
+.footer-contact-item span:last-child{
+  font-size:13.5px;font-weight:400;
+  color:var(--text-muted-dark);line-height:1.6;
+}
+.footer-bottom{
+  max-width:1280px;margin:0 auto;
+  padding:22px 0;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+}
+.footer-copy{font-size:11px;color:rgba(244,239,230,.22);letter-spacing:.8px}
+.footer-bottom-links{display:flex;gap:22px}
+.footer-bottom-links a{
+  font-size:11px;color:rgba(244,239,230,.22);
+  text-decoration:none;transition:color .3s;
+}
+.footer-bottom-links a:hover{color:var(--accent)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  #hero{grid-template-columns:1fr;min-height:auto}
+  .hero-right{height:55vw;min-height:280px}
+  .hero-right-overlay{background:linear-gradient(to top,rgba(21,34,25,.5) 0%,transparent 60%)}
+  .hero-left{padding-top:110px}
+  .about-inner{grid-template-columns:1fr;gap:60px}
+  .about-img-side{height:420px}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  #experience{grid-template-columns:1fr}
+  .exp-img{min-height:380px}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .svc-grid{grid-template-columns:1fr}
+  .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;grid-auto-rows:200px}
+  .gal-item:first-child{grid-row:auto;grid-column:1/-1}
+  .rev-grid{grid-template-columns:1fr}
+  .bk-form{padding:28px 22px}
+  .form-grid{grid-template-columns:1fr}
+  .ct-grid{grid-template-columns:1fr;gap:40px}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .hero-stats{gap:22px}
+  .float-btn{bottom:18px;right:18px}
+  .scroll-hint{display:none}
+}
+@media(max-width:480px){
+  .hero-h1{font-size:48px}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .svc-header{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- FLOAT BOOK -->
+<a href="#booking" class="float-btn" id="floatBtn">✂&nbsp; Book Now</a>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <button class="mob-close" id="mobClose"></button>
+  <a href="#about"    onclick="closeMob()">About</a>
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#gallery"  onclick="closeMob()">Gallery</a>
+  <a href="#reviews"  onclick="closeMob()">Reviews</a>
+  <a href="#booking"  onclick="closeMob()">Book Now</a>
+  <a href="#contact"  onclick="closeMob()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <div class="nav-monogram">HE</div>
+    <div class="nav-brand">
+      <span class="nav-name">His Essentials</span>
+      <span class="nav-sub">Barber Shop · Kuwait City</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#booking" class="nav-book">Book Now</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>Kuwait City · Est. 2014</span>
+    </div>
+    <h1 class="hero-h1">
+      Precision.<br>
+      <em>Refined.</em>
+      Since 2014.
+    </h1>
+    <p class="hero-body">
+      Kuwait's premier men's grooming house — master barbers, luxury facial treatments, and an atmosphere crafted for the discerning gentleman in Sharq.
+    </p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary"><span>Book Appointment</span></a>
+      <a href="#services" class="btn-outline">Explore Services</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <span class="stat-num">10+</span>
+        <span class="stat-lbl">Years Open</span>
+      </div>
+      <div>
+        <span class="stat-num">4.4★</span>
+        <span class="stat-lbl">Google Rating</span>
+      </div>
+      <div>
+        <span class="stat-num">133+</span>
+        <span class="stat-lbl">Reviews</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1200&q=85" alt="Master barber at work">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-tag">Sharq · Dar Al-Awadi · Kuwait</div>
+  </div>
+  <div class="scroll-hint">
+    <span class="scroll-word">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-inner">
+    <div class="marquee-item"><span>Precision Haircuts</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Beard Crafting</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Facial Treatments</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Hair Therapy</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Steam & Shave</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Kuwait City</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Open 12PM – 10PM</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Precision Haircuts</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Beard Crafting</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Facial Treatments</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Hair Therapy</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Steam & Shave</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Kuwait City</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>Open 12PM – 10PM</span><span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-img-side rv-l">
+      <div class="aimg-main">
+        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=900&q=85" alt="His Essentials interior">
+      </div>
+      <div class="aimg-accent">
+        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=85" alt="Premium grooming tools">
+      </div>
+      <div class="about-badge">
+        <span class="badge-num">4.4★</span>
+        <span class="badge-sub">Google</span>
+      </div>
+    </div>
+    <div class="about-text-side rv-r">
+      <div class="section-label">
+        <div class="label-line"></div>
+        <span class="label-text">Our Story</span>
+      </div>
+      <h2 class="section-title dark">More Than<br><em>A Haircut</em></h2>
+      <p class="about-body">
+        His Essentials was founded in 2014 on a singular belief — every man deserves precision, care, and an experience that goes beyond the chair. Located in Dar Al-Awadi Tower, Sharq, we've built a reputation for excellence across Kuwait City.
+      </p>
+      <p class="about-body" style="margin-top:-16px">
+        Our barbers speak Arabic & English and specialize in everything from sharp fades to full facial and hair treatments — tailored completely to you.
+      </p>
+      <div class="about-feats">
+        <div class="feat-card">
+          <div class="feat-icon">✂️</div>
+          <div class="feat-title">Master Barbers</div>
+          <div class="feat-desc">Trained in precision cutting, fades, and classic shaving techniques.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">💆</div>
+          <div class="feat-title">Facial Treatments</div>
+          <div class="feat-desc">Deep cleansing, steam facials, and skin rejuvenation for men.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🌿</div>
+          <div class="feat-title">Premium Products</div>
+          <div class="feat-desc">Only the finest grooming products used on every single client.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📍</div>
+          <div class="feat-title">Central Location</div>
+          <div class="feat-desc">Ground Floor, Dar Al-Awadhi, Ahmad Al Jaber St, Sharq.</div>
+        </div>
+      </div>
+      <a href="#services" class="btn-primary" style="background:var(--forest);color:var(--cream)"><span>View All Services</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-header rv">
+    <div>
+      <div class="section-label"><div class="label-line"></div><span class="label-text">What We Offer</span></div>
+      <h2 class="section-title">Our <em>Services</em></h2>
+    </div>
+    <p class="svc-intro">Every service is delivered with precision, premium products, and an unwavering commitment to your satisfaction.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card rv">
+      <span class="svc-num">01</span>
+      <div class="svc-icon">✂</div>
+      <div class="svc-bar"></div>
+      <h3 class="svc-name">Essential Haircut</h3>
+      <p class="svc-desc">Precision haircuts tailored to your face shape — classic, modern, or fade. Done properly, every time.</p>
+      <div class="svc-price">From KD 10</div>
+      <div class="svc-duration">30 mins</div>
+    </div>
+    <div class="svc-card rv" style="transition-delay:.07s">
+      <span class="svc-num">02</span>
+      <div class="svc-icon">🪒</div>
+      <div class="svc-bar"></div>
+      <h3 class="svc-name">Beard Trim</h3>
+      <p class="svc-desc">Crisp beard lines, clean edges, and a perfectly shaped beard — styled exactly to your preference.</p>
+      <div class="svc-price">From KD 7</div>
+      <div class="svc-duration">20 mins</div>
+    </div>
+    <div class="svc-card rv" style="transition-delay:.14s">
+      <span class="svc-num">03</span>
+      <div class="svc-icon">👑</div>
+      <div class="svc-bar"></div>
+      <h3 class="svc-name">Essential Haircut & Beard</h3>
+      <p class="svc-desc">The complete grooming package — precision haircut, beard trim, and a premium hot towel finish.</p>
+      <div class="svc-price">KD 15</div>
+      <div class="svc-duration">40 mins</div>
+    </div>
+    <div class="svc-card rv" style="transition-delay:.07s">
+      <span class="svc-num">04</span>
+      <div class="svc-icon">✨</div>
+      <div class="svc-bar"></div>
+      <h3 class="svc-name">Facial Treatment</h3>
+      <p class="svc-desc">Deep cleansing and rejuvenating treatments designed for men's skin — steam, scrub, and restore.</p>
+      <div class="svc-price">From KD 20</div>
+      <div class="svc-duration">30 mins</div>
+    </div>
+    <div class="svc-card rv" style="transition-delay:.14s">
+      <span class="svc-num">05</span>
+      <div class="svc-icon">💧</div>
+      <div class="svc-bar"></div>
+      <h3 class="svc-name">Hair & Scalp Therapy</h3>
+      <p class="svc-desc">Nourishing scalp treatments that strengthen hair from root to tip. Includes a complimentary haircut.</p>
+      <div class="svc-price">KD 20</div>
+      <div class="svc-duration">30 mins</div>
+    </div>
+    <div class="svc-card rv" style="transition-delay:.21s">
+      <span class="svc-num">06</span>
+      <div class="svc-icon">🌿</div>
+      <div class="svc-bar"></div>
+      <h3 class="svc-name">Hair & Facial Session</h3>
+      <p class="svc-desc">The full ritual — hair and scalp therapy combined with a facial session, including haircut and shave.</p>
+      <div class="svc-price">KD 35</div>
+      <div class="svc-duration">1 hour</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE SPLIT -->
+<section id="experience">
+  <div class="exp-img rv-l">
+    <img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=900&q=85" alt="Barber at work">
+    <div class="exp-img-overlay"></div>
+    <div class="exp-quote">
+      <span class="exp-qmark">"</span>
+      <p class="exp-qtext">Read made it feel like home. Best barber experience I've had while traveling — and I'll be coming back.</p>
+      <span class="exp-qauthor">— Verified Google Review</span>
+    </div>
+  </div>
+  <div class="exp-right rv-r">
+    <div class="section-label"><div class="label-line"></div><span class="label-text">The Experience</span></div>
+    <h2 class="section-title">Why Choose<br><em>His Essentials?</em></h2>
+    <p class="exp-body">Walking into His Essentials is different. The space is calm and focused — no rush, no noise. Every barber listens first, then works. From a seven-year regular to a first-time visitor, the level of attention is always the same.</p>
+    <p class="exp-body" style="margin-top:-24px">We speak your language — literally. Arabic and English, with warmth and precision in every session.</p>
+    <a href="#booking" class="btn-primary"><span>Reserve Your Chair</span></a>
+    <div class="exp-stats">
+      <div class="exp-stat">
+        <div class="exp-stat-n">10+</div>
+        <div class="exp-stat-l">Years in Kuwait</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-n">4.4</div>
+        <div class="exp-stat-l">Google Rating</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-n">133</div>
+        <div class="exp-stat-l">Verified Reviews</div>
+      </div>
+      <div class="exp-stat">
+        <div class="exp-stat-n">2</div>
+        <div class="exp-stat-l">Languages Spoken</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gal-header rv">
+    <div>
+      <div class="section-label"><div class="label-line"></div><span class="label-text">Our Work</span></div>
+      <h2 class="section-title">The <em>Gallery</em></h2>
+    </div>
+    <a href="https://instagram.com/hekuwait" target="_blank" class="btn-outline">@hekuwait →</a>
+  </div>
+  <div class="gal-grid rv">
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=900&q=85" alt="Haircut">
+      <div class="gal-overlay"></div>
+      <span class="gal-label">Precision Cuts</span>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=85" alt="Tools">
+      <div class="gal-overlay"></div>
+      <span class="gal-label">The Craft</span>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=600&q=85" alt="Interior">
+      <div class="gal-overlay"></div>
+      <span class="gal-label">The Space</span>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=85" alt="Beard">
+      <div class="gal-overlay"></div>
+      <span class="gal-label">Beard Work</span>
+    </div>
+    <div class="gal-item">
+      <img src="https://images.unsplash.com/photo-1596728325488-58c87691e9af?w=600&q=85" alt="Fade">
+      <div class="gal-overlay"></div>
+      <span class="gal-label">Fade Mastery</span>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="rev-inner">
+    <div class="rev-header rv">
+      <div class="section-label" style="justify-content:center">
+        <div class="label-line"></div>
+        <span class="label-text">Client Reviews</span>
+        <div class="label-line"></div>
+      </div>
+      <h2 class="section-title dark" style="text-align:center">What They <em>Say</em></h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card rv">
+        <div class="rev-stars">★★★★★</div>
+        <span class="rev-qmark">"</span>
+        <p class="rev-text">Been getting my haircut here for seven years. A great place to go — be sure to ask for Abbas, the head barber. He never misses.</p>
+        <div class="rev-author">
+          <div class="rev-avatar">A</div>
+          <div>
+            <div class="rev-name">Ahmed K.</div>
+            <div class="rev-detail">Google Review · Verified · 7-year client</div>
+          </div>
+        </div>
+      </div>
+      <div class="rev-card rv" style="transition-delay:.1s">
+        <div class="rev-stars">★★★★★</div>
+        <span class="rev-qmark">"</span>
+        <p class="rev-text">Read made it feel like home. I usually don't go to salons while traveling — but this experience changed that. Exceptional service.</p>
+        <div class="rev-author">
+          <div class="rev-avatar">M</div>
+          <div>
+            <div class="rev-name">Mohammed S.</div>
+            <div class="rev-detail">Google Review · Verified</div>
+          </div>
+        </div>
+      </div>
+      <div class="rev-card rv" style="transition-delay:.2s">
+        <div class="rev-stars">★★★★★</div>
+        <span class="rev-qmark">"</span>
+        <p class="rev-text">Really good haircutting service. The barbers are skilled, attentive, and the shop has a calm, professional atmosphere I keep coming back to.</p>
+        <div class="rev-author">
+          <div class="rev-avatar">F</div>
+          <div>
+            <div class="rev-name">Faisal Al-R.</div>
+            <div class="rev-detail">Google Review · Verified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="bk-inner rv">
+    <div class="bk-label-wrap">
+      <div class="section-label"><div class="label-line"></div><span class="label-text">Reserve Your Seat</span><div class="label-line"></div></div>
+    </div>
+    <h2 class="bk-title">Book Your <em>Appointment</em></h2>
+    <p class="bk-sub">Choose your service, pick a time, and we'll take care of the rest. Walk-ins also welcome daily.</p>
+    <div class="bk-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone / WhatsApp</label>
+          <input type="tel" class="form-input" placeholder="+965 XXXX XXXX">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Service</label>
+          <select class="form-select">
+            <option value="">Select a service...</option>
+            <option>Essential Haircut — KD 10</option>
+            <option>Beard Trim — KD 7</option>
+            <option>Haircut & Beard Trim — KD 15</option>
+            <option>Facial Treatment — KD 20</option>
+            <option>Hair & Scalp Therapy — KD 20</option>
+            <option>Hair & Facial Session — KD 35</option>
+            <option>Buzz Cut — KD 6</option>
+            <option>Deep Facial Cleansing — KD 20</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Date</label>
+          <input type="date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Time</label>
+          <select class="form-select">
+            <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+            <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+            <option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+            <option>9:00 PM</option><option>10:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <button class="form-submit" onclick="submitForm()"><span>Confirm Appointment →</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="ct-inner">
+    <div class="rv">
+      <div class="section-label"><div class="label-line"></div><span class="label-text">Get In Touch</span></div>
+      <h2 class="section-title">Visit <em>Us</em></h2>
+    </div>
+    <div class="ct-grid">
+      <div class="ct-items rv-l">
+        <div class="ct-item">
+          <div class="ct-ico">📍</div>
+          <div>
+            <div class="ct-lbl">Location</div>
+            <div class="ct-val">Ground Floor, Dar Al-Awadhi<br>Ahmad Al Jaber St, Sharq</div>
+            <div class="ct-sub">Kuwait City, Kuwait</div>
+          </div>
+        </div>
+        <div class="ct-item">
+          <div class="ct-ico">📱</div>
+          <div>
+            <div class="ct-lbl">Phone</div>
+            <div class="ct-val">+965 2232 2336</div>
+            <div class="ct-sub">Available during working hours</div>
+          </div>
+        </div>
+        <div class="ct-item">
+          <div class="ct-ico">🕐</div>
+          <div>
+            <div class="ct-lbl">Working Hours</div>
+            <div class="ct-val">Mon–Thu & Sat–Sun: 12:00 PM – 10:00 PM</div>
+            <div class="ct-sub">Closed on Fridays</div>
+          </div>
+        </div>
+        <div class="ct-item">
+          <div class="ct-ico">📷</div>
+          <div>
+            <div class="ct-lbl">Instagram</div>
+            <div class="ct-val">@hekuwait</div>
+            <div class="ct-sub">Follow for latest work & updates</div>
+          </div>
+        </div>
+      </div>
+      <div class="rv-r">
+        <div class="ct-map">
+          <div class="map-pin">📍</div>
+          <div class="map-title">Dar Al-Awadhi Tower</div>
+          <div class="map-sub">Ahmad Al Jaber St · Sharq · Kuwait City</div>
+          <a href="https://maps.google.com/?q=His+Essentials+Dar+Al+Awadhi+Kuwait" target="_blank" class="btn-primary"><span>Open in Google Maps →</span></a>
+        </div>
+        <div class="ct-wa">
+          <div class="ct-wa-title">Book via Online System</div>
+          <p class="ct-wa-body">Prefer to book online? Use our official booking system for instant confirmation and available slots.</p>
+          <a href="https://bookings.gettimely.com/hisessentials/book" target="_blank" class="btn-primary"><span>📅 Book Online Now →</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <div class="footer-mark">HE</div>
+        <span class="footer-name">His Essentials</span>
+      </div>
+      <p class="footer-tagline">Kuwait's premier men's grooming destination. Precision haircuts, expert barbers, and a refined space built for the modern gentleman in Sharq.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/hekuwait" target="_blank" class="social-btn">📷</a>
+        <a href="https://bookings.gettimely.com/hisessentials/book" target="_blank" class="social-btn">📅</a>
+        <a href="tel:+96522322336" class="social-btn">📞</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#services">Essential Haircut</a></li>
+        <li><a href="#services">Beard Trim</a></li>
+        <li><a href="#services">Facial Treatments</a></li>
+        <li><a href="#services">Hair Therapy</a></li>
+        <li><a href="#services">Hair & Facial Session</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#booking">Book Now</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <div class="footer-contact-item"><span>📍</span><span>Ground Floor, Dar Al-Awadhi, Ahmad Al Jaber St, Sharq, Kuwait</span></div>
+      <div class="footer-contact-item"><span>📱</span><span>+965 2232 2336</span></div>
+      <div class="footer-contact-item"><span>🕐</span><span>Mon–Thu, Sat–Sun: 12PM – 10PM</span></div>
+      <div class="footer-contact-item"><span>📷</span><span>@hekuwait</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 His Essentials. All rights reserved.</span>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function loop(){
+  rx+=(mx-rx)*.13;ry+=(my-ry)*.13;
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.feat-card,.svc-card,.rev-card,.gal-item,.ct-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('expand'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('expand'));
+});
+
+// NAV + FLOAT
+const nav=document.getElementById('mainNav');
+const floatBtn=document.getElementById('floatBtn');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('stuck',scrollY>60);
+  floatBtn.classList.toggle('show',scrollY>400);
+});
+
+// MOBILE NAV
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobNav').classList.add('open'));
+document.getElementById('mobClose').addEventListener('click',()=>document.getElementById('mobNav').classList.remove('open'));
+function closeMob(){document.getElementById('mobNav').classList.remove('open')}
+
+// REVEAL
+const revEls=document.querySelectorAll('.rv,.rv-l,.rv-r');
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')});
+},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+revEls.forEach(el=>revObs.observe(el));
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+scrollY-76,behavior:'smooth'});}
+  });
+});
+
+// PARALLAX
+window.addEventListener('scroll',()=>{
+  const img=document.querySelector('.hero-right img');
+  if(img)img.style.transform=`scale(1.08) translateY(${scrollY*.03}px)`;
+});
+
+// FORM
+function submitForm(){
+  alert("Thank you! We'll confirm your appointment shortly. You can also book instantly at bookings.gettimely.com/hisessentials/book 🙏");
+}
+</script>
+</body>
+</html>
